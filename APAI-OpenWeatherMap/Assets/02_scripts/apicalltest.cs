@@ -1,19 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class apicalltest : MonoBehaviour
 {
-    [SerializeField] private string cityName;
-    private string oWMAPIK = "956cd9bfca3e74fd6c75952e00d70685";
+    private string cityName;
+    private string owmAPIK = "956cd9bfca3e74fd6c75952e00d70685";
+    private string ggAPIK = "AIzaSyCWTazBRfJfzBHv4V-DQ8QmD0gNoy-nps0";
+    [SerializeField] InputField ipf;
 
     void callApi()
-    {
-        //http://api.openweathermap.org/data/2.5/forecast?id=524901&appid=956cd9bfca3e74fd6c75952e00d70685;
-        //https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid=956cd9bfca3e74fd6c75952e00d70685;
-        //http://api.openweathermap.org/geo/1.0/direct?q={city name},{state code},{country code}&limit={limit}&appid={API key};
-        //http://api.openweathermap.org/geo/1.0/direct?q={city name},{state code},{country code}&limit={limit}&appid="+ oWMAPIK;
-        
+    {        
+        //https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API};        
     }
 
     // Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse);
