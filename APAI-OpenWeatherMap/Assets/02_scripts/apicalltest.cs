@@ -6,22 +6,47 @@ using UnityEngine.Networking;
 
 public class apicalltest : MonoBehaviour
 {
+    public string usernome = "waltermelion";
     private string endereco;
     private string owmAPIK = "956cd9bfca3e74fd6c75952e00d70685";
     //private string ggAPIK = "AIzaSyCWTazBRfJfzBHv4V-DQ8QmD0gNoy-nps0";
+    
     private string geoNamesURL;
+    private Address data;
 
-    void callApi(UnityEngine.UI.InputField query)
+    public Text textArea;
+
+    public void callApi(InputField query)
     {
-        //https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=YOUR_API_KEY;
         //https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API};
-        endereco = UnityWebRequest.EscapeURL(query.text);
-        geoNamesURL = "https://www.geonames.org/search.html?q=" + endereco + "&country=";        
-        StartCoroutine(SendRequest());
+        //endereco = UnityWebRequest.EscapeURL(query.text);
+        endereco = query.text.Replace(" ", "+");
+        geoNamesURL = "http://api.geonames.org/geoCodeAddressJSON?q=" + endereco + "&username="+ usernome;
+        Debug.Log(geoNamesURL);
+        
+        StartCoroutine(SendRequest(geoNamesURL));
     }
-    IEnumerator SendRequest()
+    IEnumerator SendRequest(string URL)
     {
-        UnityWebRequest request = UnityWebRequest.Get("REQUEST_URL");
+        UnityWebRequest request = UnityWebRequest.Get(URL);
+        
         yield return request.SendWebRequest();
+        
+        if (request.result != UnityWebRequest.Result.Success)
+            Debug.Log("Erro de comunicação: "+ request.error);
+        else
+        {
+            data = JsonUtility.FromJson<Address>(request.downloadHandler.text);
+            textArea.text = data.ToString();
+            //showResults(data);
+        }
+    }
+    private void showResults(GeonamesData data)
+    {
+        textArea.text = "Total Results: " + data;
+
+        
+            //textArea.text += "\n\tName: " + item.name;
+        
     }
 }
