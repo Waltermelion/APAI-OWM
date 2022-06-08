@@ -1,25 +1,24 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
 
 public class apicalltest : MonoBehaviour
 {
+    //Login
+    [Header("Geonames Login")]
     public string usernome = "waltermelion";
-    private string endereco;
     private string owmAPIK = "956cd9bfca3e74fd6c75952e00d70685";
-    //private string ggAPIK = "AIzaSyCWTazBRfJfzBHv4V-DQ8QmD0gNoy-nps0";
     
+    private string endereco;
     private string geoNamesURL;
-    private Address data;
-
+    private Root root;
+    
+    //Area de texto no canvas
+    [Header("Área de texto")]
     public Text textArea;
-
     public void callApi(InputField query)
-    {
-        //https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API};
-        //endereco = UnityWebRequest.EscapeURL(query.text);
+    { 
         endereco = query.text.Replace(" ", "+");
         geoNamesURL = "http://api.geonames.org/geoCodeAddressJSON?q=" + endereco + "&username="+ usernome;
         Debug.Log(geoNamesURL);
@@ -36,17 +35,9 @@ public class apicalltest : MonoBehaviour
             Debug.Log("Erro de comunicação: "+ request.error);
         else
         {
-            data = JsonUtility.FromJson<Address>(request.downloadHandler.text);
-            textArea.text = data.ToString();
-            //showResults(data);
+            root = new Root();
+            root = JsonUtility.FromJson<Root>(request.downloadHandler.text);
+            textArea.text = "lat: " + root.address.lat + " lng: " + root.address.lng;
         }
-    }
-    private void showResults(GeonamesData data)
-    {
-        textArea.text = "Total Results: " + data;
-
-        
-            //textArea.text += "\n\tName: " + item.name;
-        
     }
 }
